@@ -1,0 +1,87 @@
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'bintray'
+
+group = 'com.bertramlabs.plugins'
+version = '0.4.0'
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3"
+    }
+}
+
+
+repositories {
+    jcenter()
+    maven { url 'http://dl.bintray.com/karman/karman' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:2.2.2'
+    compile 'com.bertramlabs.plugins:karman-core:0.4.0'
+    compile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId 'karman-core'
+
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+sourceSets {
+    main.groovy.srcDir 'src'
+    test.groovy.srcDir 'test'
+}
+
+//Define bintrayUser and bintrayKey in ~/.gradle/gradle.properties
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    publications = ['maven']
+    pkg {
+        repo = 'karman'
+        userOrg = 'karman'
+        name = 'karman-core'
+        licenses = ['Apache-2.0']
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task(console, dependsOn: 'classes', type: JavaExec) {
+  main = 'groovy.ui.Console'
+  classpath = sourceSets.main.runtimeClasspath
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        showStandardStreams = true
+    }
+}
+
+
+bintrayUpload.dependsOn build, sourcesJar, javadocJar
