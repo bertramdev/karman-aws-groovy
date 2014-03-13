@@ -23,7 +23,6 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.Bucket
 import com.bertramlabs.plugins.karman.Directory
 import com.bertramlabs.plugins.karman.StorageProvider
-import grails.util.Holders
 
 class S3StorageProvider extends StorageProvider {
 

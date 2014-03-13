@@ -20,6 +20,7 @@ buildscript {
 
 repositories {
     jcenter()
+    mavenCentral()
     maven { url 'http://dl.bintray.com/karman/karman' }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
@@ -27,14 +28,17 @@ repositories {
 
 dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.2.2'
-    compile 'com.bertramlabs.plugins:karman-core:0.4.0'
+    compile 'com.bertramlabs.plugins:karman-core:0.4.2'
     compile "org.spockframework:spock-core:0.7-groovy-2.0"
+    compile 'org.apache.httpcomponents:httpcore:4.2'
+    compile 'org.apache.httpcomponents:httpclient:4.2'
+    compile 'com.amazonaws:aws-java-sdk:1.7.1'
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
-            artifactId 'karman-core'
+            artifactId 'karman-aws-groovy'
 
             from components.java
             artifact sourcesJar
@@ -56,7 +60,7 @@ bintray {
     pkg {
         repo = 'karman'
         userOrg = 'karman'
-        name = 'karman-core'
+        name = 'karman-aws-groovy'
         licenses = ['Apache-2.0']
     }
 }
