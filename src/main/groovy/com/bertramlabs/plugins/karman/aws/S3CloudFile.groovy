@@ -146,6 +146,7 @@ class S3CloudFile extends CloudFile {
 		inputStream?.close()
 		return result
 	}
+
     void setText(String text) {
 		setBytes(text.bytes)
 	}
@@ -160,7 +161,7 @@ class S3CloudFile extends CloudFile {
             if (expirationDate) {
                 s3Client.generatePresignedUrl(parent.name, name, expirationDate)
             } else {
-                new URL("${s3Client.endpoint}/${parent.name}/${name}")
+                new URL("https://${parent.name}.s3.amazonaws.com/${name}")
             }
         }
     }
@@ -203,7 +204,7 @@ class S3CloudFile extends CloudFile {
         if (valid) {
             assert inputStream
             setMetaAttribute(Headers.S3_CANNED_ACL, acl)
-            
+
             s3Client.putObject(parent.name, name, inputStream, object.objectMetadata)
             object = null
             summary = null
