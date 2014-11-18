@@ -22,14 +22,13 @@ repositories {
     jcenter()
     mavenLocal()
     mavenCentral()
-    maven { url 'http://dl.bintray.com/karman/karman' }
-    //maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'http://dl.bintray.com/bertramlabs/karman' }
 }
 
 
 dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.2.2'
-    compile 'com.bertramlabs.plugins:karman-core:0.5.3'
+    compile 'com.bertramlabs.plugins:karman-core:0.5.6'
     compile "org.spockframework:spock-core:0.7-groovy-2.0"
     compile 'org.apache.httpcomponents:httpcore:4.2'
     compile 'org.apache.httpcomponents:httpclient:4.2'
@@ -60,7 +59,7 @@ bintray {
     publications = ['maven']
     pkg {
         repo = 'karman'
-        userOrg = 'karman'
+        userOrg = 'bertramlabs'
         name = 'karman-aws-groovy'
         licenses = ['Apache-2.0']
     }
