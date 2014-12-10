@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'bintray'
 
 group = 'com.bertramlabs.plugins'
-version = '0.5.1'
+version = '0.6.0'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 buildscript {
@@ -54,8 +54,8 @@ sourceSets {
 
 //Define bintrayUser and bintrayKey in ~/.gradle/gradle.properties
 bintray {
-    user = bintrayUser
-    key = bintrayKey
+    user = project.hasProperty('bintrayUser') ? bintrayUser : 'anonymous'
+    key = project.hasProperty('bintrayKey') ? bintrayKey : 'key here'
     publications = ['maven']
     pkg {
         repo = 'karman'
