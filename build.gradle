@@ -26,10 +26,20 @@ repositories {
 }
 
 
+configurations {
+    provided
+}
+ 
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
 dependencies {
-	compile 'org.codehaus.groovy:groovy-all:2.2.2'
-    compile 'com.bertramlabs.plugins:karman-core:0.6.0'
-    compile "org.spockframework:spock-core:0.7-groovy-2.0"
+	provided 'org.codehaus.groovy:groovy-all:2.0.7'
+    compile 'com.bertramlabs.plugins:karman-core:0.6.1'
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
     compile 'org.apache.httpcomponents:httpcore:4.2'
     compile 'org.apache.httpcomponents:httpclient:4.2'
     compile 'com.amazonaws:aws-java-sdk:1.7.1'
@@ -73,10 +83,11 @@ publishing {
     }
 }
 
-sourceSets {
-    main.groovy.srcDir 'src'
-    test.groovy.srcDir 'test'
+configurations {
+    provided
 }
+ 
+
 
 //Define bintrayUser and bintrayKey in ~/.gradle/gradle.properties
 bintray {
