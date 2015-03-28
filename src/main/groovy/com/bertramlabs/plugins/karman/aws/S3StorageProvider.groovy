@@ -32,6 +32,13 @@ class S3StorageProvider extends StorageProvider {
     String secretKey = ''
     String region = ''
 
+    public S3StorageProvider(Map options) {
+        accessKey = options.accessKey ?: accessKey
+        secretKey = options.secretKey ?: secretKey
+        region    = options.region    ?: region
+        defaultFileACL = options.defaultFileACL ?: defaultFileACL
+    }
+
 	Directory getDirectory(String name) {
 		new S3Directory(name: name, provider: this)
 	}
