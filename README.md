@@ -11,9 +11,7 @@ To instantiate an S3 provider simply do:
 
 ```groovy
 import com.bertramlabs.plugins.karman.*
-import com.bertramlabs.plugins.karman.aws.S3StorageProvider
 
-StorageProvider.registerProvider(S3StorageProvider)
 
 provider = StorageProvider.create(
     provider: 's3',
