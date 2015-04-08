@@ -17,7 +17,12 @@ provider = StorageProvider.create(
     provider: 's3',
     accessKey: ACCESS_KEY,
     secretKey: SECRET_KEY,
-    region: 'eu-west-1'
+    //optional
+    region: 'eu-west-1',
+    protocol: 'https',
+    useGzip: false,
+    keepAlive: false,
+    maxConnections: 50
 )
 
 //example getting file contents

@@ -21,6 +21,7 @@ import com.amazonaws.regions.Region
 import com.amazonaws.regions.RegionUtils
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.Bucket
+import com.amazonaws.ClientConfiguration
 import com.bertramlabs.plugins.karman.Directory
 import com.bertramlabs.plugins.karman.StorageProvider
 
@@ -31,12 +32,19 @@ class S3StorageProvider extends StorageProvider {
     String accessKey = ''
     String secretKey = ''
     String region = ''
-
+    String protocol = 'https'
+    Integer maxConnections
+    Boolean keepAlive = false
+    Boolean useGzip = false
     public S3StorageProvider(Map options) {
-        accessKey = options.accessKey ?: accessKey
-        secretKey = options.secretKey ?: secretKey
-        region    = options.region    ?: region
+        accessKey      = options.accessKey      ?: accessKey
+        secretKey      = options.secretKey      ?: secretKey
+        region         = options.region         ?: region
+        protocol       = options.protocol       ?: protocol
+        maxConnections = options.maxConnections ?: maxConnections
+        keepAlive      = options.keepAlive      ?: keepAlive
         defaultFileACL = options.defaultFileACL ?: defaultFileACL
+        useGzip        = options.useGzip        ?: useGzip
     }
 
 	Directory getDirectory(String name) {
@@ -49,10 +57,16 @@ class S3StorageProvider extends StorageProvider {
 	}
 
     AmazonS3Client getS3Client() {
+
         AmazonS3Client client
         if (accessKey && secretKey) {
             BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey)
-            client = new AmazonS3Client(credentials)
+            ClientConfiguration configuration = new ClientConfiguration()
+            configuration.setUseTcpKeepAlive(keepAlive)
+            configuration.setMaxConections(maxConnections)
+            configuration.setProtocol(protocol == 'https' ? com.amazonaws.Protocol.HTTPS : com.amazonaws.Protocol.HTTP)
+            configuration.setUseGzip(useGzip)
+            client = new AmazonS3Client(credentials,configuration)
             if (region) {
                 Region region = RegionUtils.getRegion(region)
                 client.region = region
