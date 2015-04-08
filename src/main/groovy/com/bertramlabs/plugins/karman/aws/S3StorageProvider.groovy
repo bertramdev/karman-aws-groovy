@@ -33,7 +33,7 @@ class S3StorageProvider extends StorageProvider {
     String secretKey = ''
     String region = ''
     String protocol = 'https'
-    Integer maxConnections
+    Integer maxConnections = 50
     Boolean keepAlive = false
     Boolean useGzip = false
     public S3StorageProvider(Map options) {
