@@ -63,7 +63,7 @@ class S3StorageProvider extends StorageProvider {
             BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey)
             ClientConfiguration configuration = new ClientConfiguration()
             configuration.setUseTcpKeepAlive(keepAlive)
-            configuration.setMaxConections(maxConnections)
+            configuration.setMaxConnections(maxConnections)
             configuration.setProtocol(protocol == 'https' ? com.amazonaws.Protocol.HTTPS : com.amazonaws.Protocol.HTTP)
             configuration.setUseGzip(useGzip)
             client = new AmazonS3Client(credentials,configuration)

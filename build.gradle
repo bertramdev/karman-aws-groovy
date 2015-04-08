@@ -5,7 +5,7 @@ apply plugin: 'bintray'
 
 group = 'com.bertramlabs.plugins'
 
-version = '0.6.1'
+version = '0.6.2'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 buildscript {
@@ -43,7 +43,7 @@ dependencies {
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
     compile 'org.apache.httpcomponents:httpcore:4.2'
     compile 'org.apache.httpcomponents:httpclient:4.2'
-    compile 'com.amazonaws:aws-java-sdk:1.7.1'
+    compile 'com.amazonaws:aws-java-sdk:1.9.29'
 }
 
 publishing {
