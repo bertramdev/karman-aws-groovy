@@ -36,6 +36,7 @@ class S3StorageProvider extends StorageProvider {
     Integer maxConnections = 50
     Boolean keepAlive = false
     Boolean useGzip = false
+    AmazonS3Client client = null
     public S3StorageProvider(Map options) {
         accessKey      = options.accessKey      ?: accessKey
         secretKey      = options.secretKey      ?: secretKey
@@ -58,7 +59,9 @@ class S3StorageProvider extends StorageProvider {
 
     AmazonS3Client getS3Client() {
 
-        AmazonS3Client client
+        if(client) {
+            return client
+        }
         if (accessKey && secretKey) {
             BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey)
             ClientConfiguration configuration = new ClientConfiguration()
