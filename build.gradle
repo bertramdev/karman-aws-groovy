@@ -1,22 +1,26 @@
-apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: 'maven-publish'
-apply plugin: 'bintray'
-
-group = 'com.bertramlabs.plugins'
-
-version = '0.6.5'
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
 buildscript {
     repositories {
         mavenLocal()
         jcenter()
     }
     dependencies {
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3"
     }
 }
+
+plugins {
+    id "com.jfrog.bintray" version "1.2"
+}
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+group = 'com.bertramlabs.plugins'
+
+version = '0.8.0'
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
 
 
 repositories {
@@ -39,7 +43,7 @@ sourceSets {
 
 dependencies {
 	provided 'org.codehaus.groovy:groovy-all:2.0.7'
-    compile 'com.bertramlabs.plugins:karman-core:0.6.2'
+    compile 'com.bertramlabs.plugins:karman-core:0.8.0'
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
     compile 'org.apache.httpcomponents:httpcore:4.2'
     compile 'org.apache.httpcomponents:httpclient:4.2'
@@ -92,8 +96,10 @@ configurations {
 
 //Define bintrayUser and bintrayKey in ~/.gradle/gradle.properties
 bintray {
-    user = project.hasProperty('bintrayUser') ? bintrayUser : 'anonymous'
-    key = project.hasProperty('bintrayKey') ? bintrayKey : 'key here'
+    if(project.hasProperty('bintrayUser')) {
+        user = bintrayUser
+        key = bintrayKey
+    }
     publications = ['maven']
     pkg {
         repo = 'karman'

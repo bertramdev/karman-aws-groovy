@@ -65,6 +65,14 @@ class S3CloudFile extends CloudFile {
                 s3Object.objectMetadata.userMetadata[key] = value
         }
     }
+
+    OutputStream getOutputStream() {
+        def outputStream = new PipedOutputStream()
+
+        s3Object.objectContent = new S3ObjectInputStream(new PipedInputStream(outputStream))
+        return outputStream
+    }
+
     String getMetaAttribute(key) {
         if (!metaDataLoaded) {
             loadObjectMetaData()
