@@ -18,7 +18,7 @@ apply plugin: 'com.jfrog.bintray'
 
 group = 'com.bertramlabs.plugins'
 
-version = '0.8.0'
+version = '0.8.1'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 
@@ -43,7 +43,7 @@ sourceSets {
 
 dependencies {
 	provided 'org.codehaus.groovy:groovy-all:2.0.7'
-    compile 'com.bertramlabs.plugins:karman-core:0.8.0'
+    compile 'com.bertramlabs.plugins:karman-core:0.8.1'
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
     compile 'org.apache.httpcomponents:httpcore:4.2'
     compile 'org.apache.httpcomponents:httpclient:4.2'

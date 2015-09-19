@@ -20,10 +20,13 @@ import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.regions.Region
 import com.amazonaws.regions.RegionUtils
 import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.AmazonS3EncryptionClient
 import com.amazonaws.services.s3.model.Bucket
 import com.amazonaws.ClientConfiguration
+import com.amazonaws.services.s3.model.EncryptionMaterials
 import com.bertramlabs.plugins.karman.Directory
 import com.bertramlabs.plugins.karman.StorageProvider
+import javax.crypto.spec.SecretKeySpec
 
 class S3StorageProvider extends StorageProvider {
 
@@ -32,6 +35,7 @@ class S3StorageProvider extends StorageProvider {
     String accessKey = ''
     String secretKey = ''
     String region = ''
+    String symmetricKey
     String protocol = 'https'
     Integer maxConnections = 50
     Boolean keepAlive = false
@@ -69,7 +73,14 @@ class S3StorageProvider extends StorageProvider {
             configuration.setMaxConnections(maxConnections)
             configuration.setProtocol(protocol == 'https' ? com.amazonaws.Protocol.HTTPS : com.amazonaws.Protocol.HTTP)
             configuration.setUseGzip(useGzip)
-            client = new AmazonS3Client(credentials,configuration)
+            if(symmetricKey) {
+                EncryptionMaterials materials = new EncryptionMaterials(new SecretKeySpec(symmetricKey.bytes,'AES'))
+
+                client = new AmazonS3EncryptionClient(credentials,materials,configuration)
+            } else {
+                client = new AmazonS3Client(credentials,configuration)
+            }
+
             if (region) {
                 Region region = RegionUtils.getRegion(region)
                 client.region = region

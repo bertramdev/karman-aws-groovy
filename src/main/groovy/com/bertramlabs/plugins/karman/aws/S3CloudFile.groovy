@@ -69,8 +69,12 @@ class S3CloudFile extends CloudFile {
     OutputStream getOutputStream() {
         def outputStream = new PipedOutputStream()
 
-        s3Object.objectContent = new S3ObjectInputStream(new PipedInputStream(outputStream))
+        s3Object.objectContent = new S3ObjectInputStream(new PipedInputStream(outputStream), null)
         return outputStream
+    }
+
+    void setInputStream(InputStream inputS) {
+        s3Object.objectContent = new S3ObjectInputStream(new PipedInputStream(inputS), null)
     }
 
     String getMetaAttribute(key) {
@@ -98,8 +102,8 @@ class S3CloudFile extends CloudFile {
         }
         s3Object.objectMetadata.contentLength
     }
-    void setContentLength(int contentLength) {
-        setMetaAttribute(Headers.CONTENT_LENGTH, contentLength)
+    void setContentLength(Long length) {
+        setMetaAttribute(Headers.CONTENT_LENGTH, length)
     }
 
     /**
