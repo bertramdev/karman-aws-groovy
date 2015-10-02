@@ -22,6 +22,8 @@ import com.amazonaws.regions.RegionUtils
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.AmazonS3EncryptionClient
 import com.amazonaws.services.s3.model.Bucket
+import com.amazonaws.services.s3.model.CryptoConfiguration
+import com.amazonaws.services.s3.model.CryptoStorageMode
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.services.s3.model.EncryptionMaterials
 import com.bertramlabs.plugins.karman.Directory
@@ -35,6 +37,7 @@ class S3StorageProvider extends StorageProvider {
     String accessKey = ''
     String secretKey = ''
     String region = ''
+    String endpoint = ''
     String symmetricKey
     String protocol = 'https'
     Integer maxConnections = 50
@@ -45,6 +48,8 @@ class S3StorageProvider extends StorageProvider {
         accessKey      = options.accessKey      ?: accessKey
         secretKey      = options.secretKey      ?: secretKey
         region         = options.region         ?: region
+        endpoint       = options.endpoint       ?: endpoint
+        symmetricKey   = options.symmetricKey   ?: symmetricKey
         protocol       = options.protocol       ?: protocol
         maxConnections = options.maxConnections ?: maxConnections
         keepAlive      = options.keepAlive      ?: keepAlive
@@ -75,8 +80,9 @@ class S3StorageProvider extends StorageProvider {
             configuration.setUseGzip(useGzip)
             if(symmetricKey) {
                 EncryptionMaterials materials = new EncryptionMaterials(new SecretKeySpec(symmetricKey.bytes,'AES'))
+                CryptoConfiguration cryptoConfig = new CryptoConfiguration().withStorageMode(CryptoStorageMode.ObjectMetadata)
 
-                client = new AmazonS3EncryptionClient(credentials,materials,configuration)
+                client = new AmazonS3EncryptionClient(credentials,materials,configuration,cryptoConfig)
             } else {
                 client = new AmazonS3Client(credentials,configuration)
             }
@@ -84,6 +90,9 @@ class S3StorageProvider extends StorageProvider {
             if (region) {
                 Region region = RegionUtils.getRegion(region)
                 client.region = region
+            }
+            if (endpoint) {
+                client.endpoint = endpoint
             }
         } else {
             return null
