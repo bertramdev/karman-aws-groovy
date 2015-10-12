@@ -1,6 +1,8 @@
 Karman AWS Groovy
 =================
 
+**MOVED** : This repository has moved to a sub repository at [http://github.com/bertramdev/karman-core](http://github.com/bertramdev/karman-core). It is also now named `karman-aws`.
+
 Karman AWS is a S3 implementation of the Karman Cloud Service / Storage Interface. It allows one to interact with Amazon S3 via the standard Karman API interfaces
 
 
