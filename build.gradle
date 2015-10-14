@@ -18,7 +18,7 @@ apply plugin: 'com.jfrog.bintray'
 
 group = 'com.bertramlabs.plugins'
 
-version = '0.8.3'
+version = '0.8.4'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 
