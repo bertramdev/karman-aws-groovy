@@ -18,7 +18,7 @@ apply plugin: 'com.jfrog.bintray'
 
 group = 'com.bertramlabs.plugins'
 
-version = '0.8.4'
+version = '0.8.5'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 
@@ -47,7 +47,7 @@ dependencies {
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
     compile 'org.apache.httpcomponents:httpcore:4.2'
     compile 'org.apache.httpcomponents:httpclient:4.2'
-    compile 'com.amazonaws:aws-java-sdk:1.9.29'
+    compile 'com.amazonaws:aws-java-sdk:1.10.33'
 }
 
 publishing {
